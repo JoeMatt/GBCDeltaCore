@@ -286,7 +286,7 @@
 		BF8F2AA41E9C879300F89F15 = {
 			isa = PBXGroup;
 			children = (
-				BF8F2AB01E9C879300F89F15 /* GBCDeltaCore */,
+				BF8F2AB01E9C879300F89F15 /* GBCBridge */,
 				BF8F2D571E9D8C2800F89F15 /* libGambatte */,
 				BF8F2AAF1E9C879300F89F15 /* Products */,
 				B3C9151B2991A65500842A8B /* Frameworks */,
@@ -302,7 +302,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BF8F2AB01E9C879300F89F15 /* GBCDeltaCore */ = {
+		BF8F2AB01E9C879300F89F15 /* GBCBridge */ = {
 			isa = PBXGroup;
 			children = (
 				BF8F2AB11E9C879300F89F15 /* GBCDeltaCore.h */,
@@ -312,7 +312,8 @@
 				BFFDF03C23E3BE3E00931B96 /* Types */,
 				BFF074171E9D991A00ACDF4A /* Supporting Files */,
 			);
-			path = GBCDeltaCore;
+			name = GBCBridge;
+			path = Sources/GBCBridge;
 			sourceTree = "<group>";
 		};
 		BF8F2D571E9D8C2800F89F15 /* libGambatte */ = {
@@ -322,7 +323,7 @@
 				BF8F2DAB1E9D8C8A00F89F15 /* src */,
 			);
 			name = libGambatte;
-			path = libgambatte;
+			path = Sources/gambatte/gambatte/libgambatte;
 			sourceTree = "<group>";
 		};
 		BF8F2D5F1E9D8C7D00F89F15 /* common */ = {

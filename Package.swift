@@ -4,23 +4,50 @@
 import PackageDescription
 import Foundation
 
+
+let fm = FileManager.default
+
+let inXcode = ProcessInfo.processInfo.environment["__CFBundleIdentifier"] == "com.apple.dt.Xcode"
+
+print("ENV: \(ProcessInfo.processInfo.environment.map { "\($0.key) : \($0.value)\n"})")
+
+if inXcode {
+    print("ℹ️ Building from XCode")
+//    let PROJECT_DIR: String = ProcessInfo.processInfo.environment["PWD"]!
+//    fm.changeCurrentDirectoryPath("\(PROJECT_DIR)/Sources/gambatte/gambatte/")
+    let PROJECT_DIR: String = "/Users/jmattiello/Workspace/Provenance/Delta/Cores/GBCDeltaCore"
+    fm.changeCurrentDirectoryPath("\(PROJECT_DIR)/Sources/gambatte/gambatte/")
+} else {
+    print("ℹ️ Not building from XCode")
+    fm.changeCurrentDirectoryPath("Sources/gambatte/gambatte/")
+}
+print("\nPWD: \(fm.currentDirectoryPath)")
+
 let dirs = [
     "common/",
     "libgambatte/include/",
     "libgambatte/src/",
 ]
 
-let fm = FileManager.default
-fm.changeCurrentDirectoryPath("$SRCROOT/Sources/gambatte/")
-print("\nPWD: \(fm.currentDirectoryPath)")
-
-let headers = Array(dirs.map { dir -> [String] in
+let headers: [String] = Array(dirs.map { dir -> [String] in
     let contents: [String]? = try? FileManager.default.contentsOfDirectory(atPath: dir).filter { ($0 as NSString).pathExtension == "h" }
     let paths: [String]? = contents?.map { "\(dir)\($0)" }
     return paths ?? []
 }.joined())
 
-print("\n**headers**\n \(headers.joined(separator: "\n"))")
+
+let sourceDirs = [
+    "libgambatte/src/",
+]
+let cpps: [String] = Array(sourceDirs.map { dir -> [String] in
+    let contents: [String]? = try? FileManager.default.contentsOfDirectory(atPath: dir).filter { ($0 as NSString).pathExtension == "cpp" }
+    let paths: [String]? = contents?.map { "\(dir)\($0)" }
+    return paths ?? []
+}.joined())
+
+let sources = headers + cpps
+
+print("\n**sources**\n \(sources.joined(separator: "\n"))")
 
 let package = Package(
     name: "GBCDeltaCore",
@@ -53,9 +80,9 @@ let package = Package(
                     "-fmodules",
                     "-fcxx-modules"
                 ]),
-                .headerSearchPath("../gambatte/common"),
-                .headerSearchPath("../gambatte/libgambatte/include"),
-                .headerSearchPath("../gambatte/libgambatte/src"),
+                .headerSearchPath("../gambatte/gambatte/common"),
+                .headerSearchPath("../gambatte/gambatte/libgambatte/include"),
+                .headerSearchPath("../gambatte/gambatte/libgambatte/src"),
                 .define("HAVE_CSTDINT")
             ],
             cxxSettings: [
@@ -63,9 +90,9 @@ let package = Package(
                     "-fmodules",
                     "-fcxx-modules"
                 ]),
-                .headerSearchPath("../gambatte/common"),
-                .headerSearchPath("../gambatte/libgambatte/include"),
-                .headerSearchPath("../gambatte/libgambatte/src"),
+                .headerSearchPath("../gambatte/gambatte/common"),
+                .headerSearchPath("../gambatte/gambatte/libgambatte/include"),
+                .headerSearchPath("../gambatte/gambatte/libgambatte/src"),
                 .define("HAVE_CSTDINT")
             ],
             swiftSettings: [
@@ -90,7 +117,7 @@ let package = Package(
             publicHeadersPath: "include",
             swiftSettings: [
                 .unsafeFlags([
-//                    "-enable-cxx-interop",
+                    "-enable-experimental-cxx-interop"
                     //                        "-I", "Sources/CXX/include",
                     //                        "-I", "\(sdkRoot)/usr/include",
                     //                        "-I", "\(cPath)",
@@ -109,43 +136,43 @@ let package = Package(
         .target(
             name: "gambatte",
             exclude: [
-                "common/resample/",
-                "common/videolink/",
-                "gambatte_qt/",
-                "gambatte_sdl/",
-                "libgambatte/src/",
-                "libgambatte/SConstruct",
-                "test/",
-                "README",
-                "COPYING",
-                "clean.sh",
-                "changelog",
-                "build_sdl.sh",
-                "build_qt.sh",
-                "libgambatte/src/file/file.cpp",
+                "gambatte/common/resample/",
+                "gambatte/common/videolink/",
+                "gambatte/gambatte_qt/",
+                "gambatte/gambatte_sdl/",
+                "gambatte/libgambatte/src/",
+                "gambatte/libgambatte/SConstruct",
+                "gambatte/test/",
+                "gambatte/README",
+                "gambatte/COPYING",
+                "gambatte/clean.sh",
+                "gambatte/changelog",
+                "gambatte/build_sdl.sh",
+                "gambatte/build_qt.sh",
+                "gambatte/libgambatte/src/file/file.cpp",
             ],
-            sources: headers,
-            publicHeadersPath: "libgambatte/include",
+            sources: sources,
+            publicHeadersPath: "gambatte/libgambatte/include",
             cSettings: [
-                .headerSearchPath("common"),
-                .headerSearchPath("common/resample"),
-                .headerSearchPath("libgambatte/include"),
-                .headerSearchPath("libgambatte/src"),
-                .headerSearchPath("libgambatte/src/file"),
-                .headerSearchPath("libgambatte/src/mem"),
-                .headerSearchPath("libgambatte/src/sound"),
-                .headerSearchPath("libgambatte/src/video"),
+                .headerSearchPath("gambatte/common"),
+                .headerSearchPath("gambatte/common/resample"),
+                .headerSearchPath("gambatte/libgambatte/include"),
+                .headerSearchPath("gambatte/libgambatte/src"),
+                .headerSearchPath("gambatte/libgambatte/src/file"),
+                .headerSearchPath("gambatte/libgambatte/src/mem"),
+                .headerSearchPath("gambatte/libgambatte/src/sound"),
+                .headerSearchPath("gambatte/libgambatte/src/video"),
                 .define("HAVE_CSTDINT"),
             ],
             cxxSettings: [
-                .headerSearchPath("common"),
-                .headerSearchPath("common/resample"),
-                .headerSearchPath("libgambatte/include"),
-                .headerSearchPath("libgambatte/src"),
-                .headerSearchPath("libgambatte/src/file"),
-                .headerSearchPath("libgambatte/src/mem"),
-                .headerSearchPath("libgambatte/src/sound"),
-                .headerSearchPath("libgambatte/src/video"),
+                .headerSearchPath("gambatte/common"),
+                .headerSearchPath("gambatte/common/resample"),
+                .headerSearchPath("gambatte/libgambatte/include"),
+                .headerSearchPath("gambatte/libgambatte/src"),
+                .headerSearchPath("gambatte/libgambatte/src/file"),
+                .headerSearchPath("gambatte/libgambatte/src/mem"),
+                .headerSearchPath("gambatte/libgambatte/src/sound"),
+                .headerSearchPath("gambatte/libgambatte/src/video"),
                 .define("HAVE_CSTDINT"),
             ]
         ),
