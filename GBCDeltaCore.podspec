@@ -10,8 +10,13 @@ Pod::Spec.new do |spec|
   spec.author             = { "Riley Testut" => "riley@rileytestut.com" }
   spec.social_media_url   = "https://twitter.com/rileytestut"
   
-  spec.source_files  = "GBCDeltaCore/**/*.{h,m,mm,cpp,swift}", "gambatte/libgambatte/include/*.h", "gambatte/common/*.h", "gambatte/libgambatte/src/*.h"
-  spec.public_header_files = "GBCDeltaCore/Types/GBCTypes.h", "GBCDeltaCore/Bridge/GBCEmulatorBridge.h"
+  spec.source_files  =  "GBCDeltaCore/**/*.{h,m,mm,cpp,swift}",
+                        "gambatte/libgambatte/include/*.h",
+                        "gambatte/common/*.h",
+                        "gambatte/libgambatte/src/*.h"
+
+  spec.public_header_files =    "GBCDeltaCore/Types/GBCTypes.h",
+                                "GBCDeltaCore/Bridge/GBCEmulatorBridge.h"
   spec.header_mappings_dir = ""
   spec.resource_bundles = {
     "GBCDeltaCore" => ["GBCDeltaCore/**/*.deltamapping", "GBCDeltaCore/**/*.deltaskin"]

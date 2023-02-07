@@ -6,7 +6,11 @@
 //  Copyright © 2020 Riley Testut. All rights reserved.
 //
 
-#import <DeltaCore/DeltaTypes.h>
+#if SWIFT_PACKAGE
+@import DeltaTypes;
+#else
+@import DeltaCore;
+#endif
 
 // Extensible Enums
 FOUNDATION_EXPORT GameType const GameTypeGBC NS_SWIFT_NAME(gbc);

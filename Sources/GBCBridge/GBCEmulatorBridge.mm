@@ -15,9 +15,8 @@
 #include "GBCInputGetter.h"
 
 // DeltaCore
-#import <GBCDeltaCore/GBCDeltaCore.h>
-#import <DeltaCore/DeltaCore.h>
-#import <DeltaCore/DeltaCore-Swift.h>
+@import DeltaCore;
+@import DeltaTypes;
 
 // HACKY. Need to access private members to ensure save data loads properly.
 // This redefines the private members as public so we can use them.
@@ -27,6 +26,7 @@
 #pragma clang diagnostic ignored "-Wshorten-64-to-32"
 
 // Gambatte
+//@import gambatte;
 #include "gambatte.h"
 #include "cpu.h"
 

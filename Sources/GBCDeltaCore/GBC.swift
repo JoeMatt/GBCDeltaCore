@@ -10,31 +10,17 @@ import Foundation
 import AVFoundation
 
 import DeltaCore
+import DeltaTypes
+@_exported import GBCSwift
+@_exported import GBCBridge
 
-@objc public enum GBCGameInput: Int, Input
-{
-    case up = 0x40
-    case down = 0x80
-    case left = 0x20
-    case right = 0x10
-    case a = 0x01
-    case b = 0x02
-    case start = 0x08
-    case select = 0x04
-    
-    public var type: InputType {
-        return .game(.gbc)
-    }
-}
-
-public struct GBC: DeltaCoreProtocol
-{
+public struct GBC: DeltaCoreProtocol {
     public static let core = GBC()
     
     public var name: String { "GBCDeltaCore" }
     public var identifier: String { "com.rileytestut.GBCDeltaCore" }
     
-    public var gameType: GameType { GameType.gbc }
+    public var gameType: GameType { .gbc }
     public var gameInputType: Input.Type { GBCGameInput.self }
     public var gameSaveFileExtension: String { "sav" }
     
@@ -47,9 +33,13 @@ public struct GBC: DeltaCoreProtocol
         return [gameGenieFormat, gameSharkFormat]
     }
     
-    public var emulatorBridge: EmulatorBridging { GBCEmulatorBridge.shared }
+    public var emulatorBridge: EmulatorBridging { GBCEmulatorBridge.shared as! EmulatorBridging }
     
-    private init()
-    {
+    private init() {}
+}
+
+extension GBCGameInput: Input {
+    public var type: InputType {
+        return .game(.gbc)
     }
 }
