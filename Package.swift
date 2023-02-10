@@ -78,6 +78,18 @@ let package = Package(
         .target(
             name: "GBCDeltaCore",
             dependencies: ["DeltaCore", "gambatte", "GBCSwift", "GBCBridge", "Zip"],
+            exclude: [
+                "Resources/Controller Skin/info.json",
+                "Resources/Controller Skin/iphone_portrait.pdf",
+                "Resources/Controller Skin/iphone_landscape.pdf",
+                "Resources/Controller Skin/iphone_edgetoedge_portrait.pdf",
+                "Resources/Controller Skin/iphone_edgetoedge_landscape.pdf",
+                "Resources/Controller Skin/ipad_portrait.pdf",
+                "Resources/Controller Skin/ipad_landscape.pdf",
+                "Resources/Controller Skin/ipad_splitview_portrait.pdf",
+                "Resources/Controller Skin/ipad_splitview_landscape.pdf"
+
+            ],
             resources: [
                 .copy("Resources/Controller Skin/Standard.deltaskin"),
                 .copy("Resources/Standard.deltamapping"),
