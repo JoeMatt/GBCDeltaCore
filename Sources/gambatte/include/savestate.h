@@ -1,0 +1,1 @@
+../gambatte/libgambatte/src/savestate.h

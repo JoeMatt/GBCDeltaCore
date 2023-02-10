@@ -204,8 +204,8 @@
     }
     
     // Hacky pointer manipulation to obtain the underlying CPU struct, then explicitly call loadSavedata().
-    gambatte::CPU *cpu = (gambatte::CPU *)self.gambatte->p_;
-    (*cpu).loadSavedata();
+//    gambatte::CPU *cpu = (gambatte::CPU *)self.gambatte->p_;
+//    (*cpu).loadSavedata();
 }
 
 #pragma mark - Cheats -
@@ -294,3 +294,18 @@
 }
 
 @end
+
+#include <sys/time.h>
+typedef unsigned long usec_t;
+
+usec_t getusecs() {
+    timeval t;
+    gettimeofday(&t, 0);
+    return t.tv_sec * usec_t(1000000) + t.tv_usec;
+}
+
+void usecsleep(usec_t usecs) {
+    timespec tspec = { 0, long(usecs) * 1000 };
+    nanosleep(&tspec, 0);
+}
+

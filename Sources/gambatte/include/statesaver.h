@@ -1,0 +1,1 @@
+../gambatte/libgambatte/src/statesaver.h

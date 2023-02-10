@@ -1,0 +1,1 @@
+../gambatte/common/rateest.h

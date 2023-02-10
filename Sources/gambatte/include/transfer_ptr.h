@@ -1,0 +1,1 @@
+../gambatte/common/transfer_ptr.h

@@ -13,6 +13,7 @@ import DeltaCore
 import DeltaTypes
 @_exported import GBCSwift
 @_exported import GBCBridge
+//@_exported import gambatte
 
 public struct GBC: DeltaCoreProtocol {
     public static let core = GBC()

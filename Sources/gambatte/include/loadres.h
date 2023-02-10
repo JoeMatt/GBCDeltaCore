@@ -1,0 +1,1 @@
+../gambatte/libgambatte/include/loadres.h

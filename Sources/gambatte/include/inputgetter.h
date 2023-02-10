@@ -1,0 +1,1 @@
+../gambatte/libgambatte/include/inputgetter.h
