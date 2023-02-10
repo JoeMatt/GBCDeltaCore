@@ -13,10 +13,8 @@ print("ENV: \(ProcessInfo.processInfo.environment.map { "\($0.key) : \($0.value)
 
 if inXcode {
     print("ℹ️ Building from XCode")
-//    let PROJECT_DIR: String = ProcessInfo.processInfo.environment["PWD"]!
-//    fm.changeCurrentDirectoryPath("\(PROJECT_DIR)/Sources/gambatte/gambatte/")
-    let PROJECT_DIR: String = "/Users/jmattiello/Workspace/Provenance/Delta/Cores/GBCDeltaCore"
-    fm.changeCurrentDirectoryPath("\(PROJECT_DIR)/Sources/gambatte/gambatte/")
+    let PROJECT_DIR: String = ProcessInfo.processInfo.environment["PROJECT_DIR"] ?? ""
+    fm.changeCurrentDirectoryPath("Cores/GBCDeltaCore/Sources/gambatte/gambatte/")
 } else {
     print("ℹ️ Not building from XCode")
     fm.changeCurrentDirectoryPath("Sources/gambatte/gambatte/")
@@ -31,7 +29,7 @@ let dirs = [
 
 let headers: [String] = Array(dirs.map { dir -> [String] in
     let contents: [String]? = try? FileManager.default.contentsOfDirectory(atPath: dir).filter { ($0 as NSString).pathExtension == "h" }
-    let paths: [String]? = contents?.map { "\(dir)\($0)" }
+    let paths: [String]? = contents?.map { "gambatte/\(dir)\($0)" }
     return paths ?? []
 }.joined())
 
@@ -41,11 +39,16 @@ let sourceDirs = [
 ]
 let cpps: [String] = Array(sourceDirs.map { dir -> [String] in
     let contents: [String]? = try? FileManager.default.contentsOfDirectory(atPath: dir).filter { ($0 as NSString).pathExtension == "cpp" }
-    let paths: [String]? = contents?.map { "\(dir)\($0)" }
+    let paths: [String]? = contents?.map { "gambatte/\(dir)\($0)" }
     return paths ?? []
 }.joined())
 
-let sources = headers + cpps
+let manualSources: [String] = [
+    "gambatte/libgambatte/src/gambatte.cpp",
+    "gambatte/libgambatte/src/cpu.cpp"
+]
+
+let sources = manualSources
 
 print("\n**sources**\n \(sources.joined(separator: "\n"))")
 
@@ -73,7 +76,7 @@ let package = Package(
 
         .target(
             name: "GBCBridge",
-            dependencies: ["DeltaCore", "gambatte", "GBCSwift"],
+            dependencies: ["DeltaCore", "gambatte", "GBCSwift", .product(name: "DeltaTypes", package: "DeltaCore")],
             publicHeadersPath: "include",
             cSettings: [
                 .unsafeFlags([
@@ -117,7 +120,7 @@ let package = Package(
             publicHeadersPath: "include",
             swiftSettings: [
                 .unsafeFlags([
-                    "-enable-experimental-cxx-interop"
+//                    "-enable-experimental-cxx-interop"
                     //                        "-I", "Sources/CXX/include",
                     //                        "-I", "\(sdkRoot)/usr/include",
                     //                        "-I", "\(cPath)",
