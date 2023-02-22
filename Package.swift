@@ -77,7 +77,15 @@ let package = Package(
 
         .target(
             name: "GBCDeltaCore",
-            dependencies: ["DeltaCore", "gambatte", "GBCSwift", "GBCBridge", "Zip"],
+			dependencies: [
+				"DeltaCore",
+				"gambatte",
+				"GBCSwift",
+				"GBCBridge",
+				// TODO: This may or may not link collide symbols depending on the other cores being linked
+				// that also have zip. Need to hide them from export, or rename @JoeMatt
+				.product(name: "Zip", package: "Zip", condition: .when(platforms: [.iOS, .tvOS]))
+			],
             exclude: [
                 "Resources/Controller Skin/info.json",
                 "Resources/Controller Skin/iphone_portrait.pdf",
