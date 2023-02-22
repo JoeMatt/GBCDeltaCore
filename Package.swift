@@ -71,7 +71,7 @@ let package = Package(
             linkerSettings: [
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS, .macCatalyst])),
                 .linkedFramework("AVFoundation", .when(platforms: [.iOS, .tvOS, .macCatalyst])),
-                .linkedFramework("GLKit", .when(platforms: [.iOS, .tvOS, .macCatalyst])),
+				.linkedFramework("GLKit", .when(platforms: [.iOS, .tvOS, .macOS])),
             ]
         ),
 
@@ -128,7 +128,7 @@ let package = Package(
             linkerSettings: [
                 .linkedFramework("UIKit", .when(platforms: [.iOS, .tvOS, .macCatalyst])),
                 .linkedFramework("AVFoundation", .when(platforms: [.iOS, .tvOS, .macCatalyst])),
-                .linkedFramework("GLKit", .when(platforms: [.iOS, .tvOS, .macCatalyst])),
+                .linkedFramework("GLKit", .when(platforms: [.iOS, .tvOS, .macOS])),
                 .linkedLibrary("z")
             ]
         ),
